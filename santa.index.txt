@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa Secreto SISNAB 🎅📚</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5016 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0px, transparent 1px, transparent 50px, rgba(139, 69, 19, 0.1) 51px),
+                repeating-linear-gradient(0deg, rgba(139, 69, 19, 0.1) 0px, transparent 1px, transparent 50px, rgba(139, 69, 19, 0.1) 51px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            background: rgba(139, 0, 0, 0.9);
+            border: 3px solid white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            margin-bottom: 15px;
+        }
+
+        .description {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            color: #2d5016;
+            line-height: 1.6;
+            font-size: 1.1em;
+            border: 2px solid white;
+        }
+
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .participant-card {
+            background: rgba(139, 0, 0, 0.9);
+            border: 3px solid white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .participant-card::before {
+            content: '📚';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+
+        .participant-card::after {
+            content: '🎄';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+
+        .participant-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.5);
+            border-color: white;
+        }
+
+        .participant-name {
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #8b0000 0%, #a00000 100%);
+            border: 4px solid white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid white;
+            border-radius: 10px;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Georgia', serif;
+        }
+
+        button {
+            background: #8b0000;
+            color: white;
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #a00000;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .result {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 3px solid white;
+        }
+
+        .result h3 {
+            color: #8b0000;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .result p {
+            color: #2d5016;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: white;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎅 Santa Secreto SISNAB 📚</h1>
+            <div class="description">
+                <p><strong>🎅✨ ¡Atención, Santa Secretos SISNAB!</strong></p>
+                <p>La revelación será el <strong>16 de diciembre</strong> con un bono de <strong>$30.000</strong></p>
+                <p>(revisen las preferencias de su afortunado en el 4to piso 😉)</p>
+                <br>
+                <p><strong>Y para mantener el misterio dulzón:</strong></p>
+                <p>🍬 Endulzada 1: <strong>2 de diciembre</strong></p>
+                <p>🍭 Endulzada 2: <strong>9 de diciembre</strong></p>
+                <br>
+                <p>¡Que la magia y el compañerismo nos acompañen! 🎁😄</p>
+            </div>
+        </header>
+
+        <div class="participants-grid" id="participantsGrid"></div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h2 id="modalTitle"></h2>
+            <input type="password" id="passwordInput" placeholder="Ingresa tu contraseña">
+            <div>
+                <button onclick="checkPassword()">🎁 Revelar mi Santa Secreto</button>
+                <button onclick="closeModal()">Cancelar</button>
+            </div>
+            <div class="error" id="error"></div>
+            <div class="result" id="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const _0x4a2b=['Adresito','Campito','Adri','Eli','Ivancho','Jairo','JuanCa','Leo','Lili','Luz Da','Manuelito','Ney','Richi','Señora Carmen','Sofi'];const _0x9c3d=['k7m3','h5n8','w4t6','z1q9','j8r2','f3v7','c6d4','y2b5','a9s1','u7e3','n4l8','m6p2','x1k5','g3w9','t8h4'];const _0x7f5e=btoa('Adresito:Eli|Campito:Señora Carmen|Adri:Manuelito|Eli:Lili|Ivancho:Sofi|Jairo:Leo|JuanCa:Richi|Leo:Adri|Lili:JuanCa|Luz Da:Jairo|Manuelito:Ivancho|Ney:Luz Da|Richi:Ney|Señora Carmen:Adresito|Sofi:Campito');const participants=_0x4a2b.map((n,i)=>({name:n,emoji:'🎅',password:_0x9c3d[i]}));const assignments={};function _0x8d4f(){const d=atob(_0x7f5e).split('|');d.forEach(p=>{const[g,r]=p.split(':');assignments[g]=r;});}function createSnowflakes(){const s=['❄','❅','❆'];for(let i=0;i<20;i++){const f=document.createElement('div');f.className='snowflake';f.innerHTML=s[Math.floor(Math.random()*s.length)];f.style.left=Math.random()*100+'%';f.style.animationDuration=(Math.random()*3+5)+'s';f.style.animationDelay=Math.random()*5+'s';f.style.fontSize=(Math.random()*10+10)+'px';document.body.appendChild(f);}}let currentParticipant=null;function openModal(p){currentParticipant=p;document.getElementById('modalTitle').textContent=`Hola, ${p.name}! 🎅`;document.getElementById('passwordInput').value='';document.getElementById('error').textContent='';document.getElementById('result').style.display='none';document.getElementById('modal').style.display='flex';document.getElementById('passwordInput').focus();}function closeModal(){document.getElementById('modal').style.display='none';currentParticipant=null;}function checkPassword(){const inp=document.getElementById('passwordInput').value;const err=document.getElementById('error');const res=document.getElementById('result');if(inp===currentParticipant.password){err.textContent='';const at=assignments[currentParticipant.name];res.innerHTML=`<h3>🎁 Tu Santa Secreto es:</h3><p style="font-size: 2em; margin: 20px 0;">🎅 ${at} 🎄</p><p style="font-size: 0.9em; color: #666;">¡Recuerda mantenerlo en secreto!</p>`;res.style.display='block';}else{err.textContent='❌ Contraseña incorrecta. Intenta de nuevo.';res.style.display='none';}}document.getElementById('passwordInput').addEventListener('keypress',(e)=>{if(e.key==='Enter'){checkPassword();}});window.onclick=function(event){if(event.target===document.getElementById('modal')){closeModal();}};const grid=document.getElementById('participantsGrid');participants.forEach(participant=>{const card=document.createElement('div');card.className='participant-card';card.innerHTML=`<div class="emoji">${participant.emoji}</div><div class="participant-name">${participant.name}</div>`;card.onclick=()=>openModal(participant);grid.appendChild(card);});_0x8d4f();createSnowflakes();
+    </script>
+</body>
+</html>
